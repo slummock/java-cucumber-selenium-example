@@ -1,4 +1,4 @@
-package com.slummock.cucumber-example;
+package com.slummock.cucumberexample;
 
 /**
  * Hello world!

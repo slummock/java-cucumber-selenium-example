@@ -1,4 +1,4 @@
-package com.slummock.cucumber-example;
+package com.slummock.cucumberexample;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
