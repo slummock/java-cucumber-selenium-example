@@ -18,13 +18,21 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.NameValuePair;
 
 public class CommentsStepDefinitions implements En {
-    public CommentsStepDefinitions() {
 
+    public CommentsStepDefinitions() {
         String currentDirectory = System.getProperty("user.dir");
         String chromeDriverLocation = currentDirectory + "\\tools\\chromedriver.exe";
         System.setProperty("webdriver.chrome.driver", chromeDriverLocation);
         WebDriver driver = new ChromeDriver();
         String testComment = "Test Comment - " + System.currentTimeMillis();
+
+        Before(()->{
+            
+        });
+
+        After(()->{
+            driver.close();
+        });
 
         Given("^User is signed out$", () -> {            
             driver.get("https://account.bbc.com/signout"); 
@@ -72,14 +80,12 @@ public class CommentsStepDefinitions implements En {
             WebElement commentElement = driver.findElement(By.xpath("//*[@id=\"comment_" + postId + "\"]/div/p"));
             String comment = commentElement.getText();
             Assert.assertEquals(testComment, comment);
-            driver.close();
         });
 
         Then("^Comment error message appears$", () -> {
             WebElement errorMessageElement = driver.findElement(By.xpath("//*[contains(@class, 'cmts-message cmts-message-error')]"));
             String errorMessage = errorMessageElement.getText();
             Assert.assertEquals("You need to write your comment before you post it.", errorMessage);
-            driver.close();
         });
     
 
