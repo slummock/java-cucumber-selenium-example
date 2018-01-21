@@ -25,9 +25,11 @@ public class CommentsStepDefinitions implements En {
         System.setProperty("webdriver.chrome.driver", chromeDriverLocation);
         WebDriver driver = new ChromeDriver();
         String testComment = "Test Comment - " + System.currentTimeMillis();
+        String userName = System.getenv("bbc-username");
+        String userPassword = System.getenv("bbc-password");
 
         Before(()->{
-            
+
         });
 
         After(()->{
@@ -51,12 +53,12 @@ public class CommentsStepDefinitions implements En {
             driver.findElement(By.xpath("//*[contains(@class, 'id4-cta-signin')]")).click();
         });
 
-        Given("^Sign in as \"([^\"]*)\" with password \"([^\"]*)\"$", (String email, String password) -> {
+        Given("^User signs in", () -> {
             driver.get("https://account.bbc.com/signin");
             WebElement userIdentifierInput = driver.findElement(By.id("user-identifier-input"));
-            userIdentifierInput.sendKeys("bbc-email");
+            userIdentifierInput.sendKeys(userName);
             WebElement userPasswordInput = driver.findElement(By.id(("password-input")));
-            userPasswordInput.sendKeys("bbc-password");
+            userPasswordInput.sendKeys(userPassword);
             driver.findElement(By.id("submit-button")).click();
         });
 
