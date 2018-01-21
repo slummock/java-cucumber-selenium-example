@@ -1,5 +1,11 @@
 Environment variables that need to be set with login details:
 
-bbc-username
-bbc-password
+```
+set bbc-username={test-email}
+```
+```
+set bbc-password={test-password}
+```
+
+Java version must be JDK8 or above
 
