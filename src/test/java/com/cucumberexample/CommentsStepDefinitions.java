@@ -28,8 +28,7 @@ public class CommentsStepDefinitions implements En {
         String chromeDriverLocation = currentDirectory + "\\tools\\chromedriver.exe";
         System.setProperty("webdriver.chrome.driver", chromeDriverLocation);
         WebDriver driver = new ChromeDriver();
-        //String testComment = "Test Comment - " + System.currentTimeMillis();
-        String testComment = "Test Comment - 1516446604749";
+        String testComment = "Test Comment - " + System.currentTimeMillis();
 
         Given("^User has logged in$", () -> {
             driver.get("https://account.bbc.com/signout");            
@@ -46,18 +45,22 @@ public class CommentsStepDefinitions implements En {
             driver.switchTo().frame("bbc-blogs-comments-iframe");
             WebElement commentTextArea = driver.findElement(By.xpath("//*[@id=\"submit_new_comment\"]/textarea"));
             commentTextArea.sendKeys(testComment);
-            //commentTextArea.submit();
+            commentTextArea.submit();
         });
 
         Then("^Comment appears on the page$", () -> {
-            URI url = new URI("http://www.bbc.co.uk/blogs/test/entries/f5f3031a-1a29-44ee-b2f8-86e78bfd57b0?isBumped=0&postFreq=0&isEmpty=0&isProfane=0&tooLong=0&charCount=0&isAwaitingProcessPreMod=0&isSubmitted=1&filter=none&initial_page_size=10&postId=129362777#comments");
-            System.out.println(driver.getCurrentUrl());
-            List<NameValuePair> queryParametersList = URLEncodedUtils.parse(url, "US-ASCII");
-            Map<String, String> queryParametersMap = queryParametersList.stream().collect(Collectors.toMap(NameValuePair::getName, NameValuePair::getValue));
-            String postId = queryParametersMap.get("postId");
+            URI uri = new URI(driver.getCurrentUrl());
+            String postId = getQueryParameter(uri, "postId");
+            driver.switchTo().frame("bbc-blogs-comments-iframe");
             WebElement commentElement = driver.findElement(By.xpath("//*[@id=\"comment_" + postId + "\"]/div/p"));
             String comment = commentElement.getText();
             Assert.assertEquals(comment, testComment);
         });
+    }
+
+    private String getQueryParameter(URI uri, String parameterName){
+        List<NameValuePair> queryParametersList = URLEncodedUtils.parse(uri, "US-ASCII");
+        Map<String, String> queryParametersMap = queryParametersList.stream().collect(Collectors.toMap(NameValuePair::getName, NameValuePair::getValue));
+        return queryParametersMap.get(parameterName);
     }
 }
