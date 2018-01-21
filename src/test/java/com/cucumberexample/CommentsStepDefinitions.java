@@ -58,14 +58,31 @@ public class CommentsStepDefinitions implements En {
             commentTextArea.submit();
         });
 
+        Given("^Submits an empty comment$", () -> {
+            WebElement commentTextArea = driver.findElement(By.xpath("//*[@id=\"submit_new_comment\"]/textarea"));
+            commentTextArea.sendKeys("");
+            WebElement submitButton = driver.findElement(By.xpath("//*[contains(@class, 'cmts-submit cmts-button')]"));
+            submitButton.click();
+        });
+
         Then("^Comment appears on the page$", () -> {
             URI uri = new URI(driver.getCurrentUrl());
             String postId = getQueryParameter(uri, "postId");
             driver.switchTo().frame("bbc-blogs-comments-iframe");
             WebElement commentElement = driver.findElement(By.xpath("//*[@id=\"comment_" + postId + "\"]/div/p"));
             String comment = commentElement.getText();
-            Assert.assertEquals(comment, testComment);
+            Assert.assertEquals(testComment, comment);
+            driver.close();
         });
+
+        Then("^Comment error message appears$", () -> {
+            WebElement errorMessageElement = driver.findElement(By.xpath("//*[contains(@class, 'cmts-message cmts-message-error')]"));
+            String errorMessage = errorMessageElement.getText();
+            Assert.assertEquals("You need to write your comment before you post it.", errorMessage);
+            driver.close();
+        });
+    
+
     }
 
     private String getQueryParameter(URI uri, String parameterName){
