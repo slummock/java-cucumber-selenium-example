@@ -1,6 +1,5 @@
 package com.cucumberexample;
 
-import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -9,12 +8,9 @@ import java.net.URI;
 import org.junit.Assert;
 
 import cucumber.api.java8.En;
-import cucumber.api.PendingException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -30,8 +26,24 @@ public class CommentsStepDefinitions implements En {
         WebDriver driver = new ChromeDriver();
         String testComment = "Test Comment - " + System.currentTimeMillis();
 
-        Given("^User has logged in$", () -> {
-            driver.get("https://account.bbc.com/signout");            
+        Given("^User is signed out$", () -> {            
+            driver.get("https://account.bbc.com/signout"); 
+        });
+
+        Given("^User navigates to \"([^\"]*)\"$", (String url) -> {            
+            driver.get(url);
+        });
+
+        Given("^User clicks the comments link$", () -> {
+            driver.findElement(By.xpath("//*[contains(@class, 'blogs-comments-link')]")).click();
+            driver.switchTo().frame("bbc-blogs-comments-iframe");
+        });
+
+        Given("^User clicks the signin link$", () -> {
+            driver.findElement(By.xpath("//*[contains(@class, 'id4-cta-signin')]")).click();
+        });
+
+        Given("^Sign in as \"([^\"]*)\" with password \"([^\"]*)\"$", (String email, String password) -> {
             driver.get("https://account.bbc.com/signin");
             WebElement userIdentifierInput = driver.findElement(By.id("user-identifier-input"));
             userIdentifierInput.sendKeys("bbc-email");
@@ -40,9 +52,7 @@ public class CommentsStepDefinitions implements En {
             driver.findElement(By.id("submit-button")).click();
         });
 
-        Given("^Posted a comment$", () -> {
-            driver.get("http://www.bbc.co.uk/blogs/test/entries/f5f3031a-1a29-44ee-b2f8-86e78bfd57b0#comments");
-            driver.switchTo().frame("bbc-blogs-comments-iframe");
+        Given("^Submits a comment$", () -> {
             WebElement commentTextArea = driver.findElement(By.xpath("//*[@id=\"submit_new_comment\"]/textarea"));
             commentTextArea.sendKeys(testComment);
             commentTextArea.submit();
