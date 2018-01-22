@@ -3,6 +3,8 @@ Maven installed
 
 JDK8 or above
 
+Chrome installed with version between v62-v64
+
 ## Environment variables that need to be set with login details:
 
 ```
