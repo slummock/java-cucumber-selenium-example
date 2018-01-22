@@ -6,7 +6,8 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-    tags= {"~@manual"}
+    tags= {"~@manual"},
+    plugin = {"pretty", "html:target/cucumber"}
 ) 
 public class RunCucumberTest {
 }

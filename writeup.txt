@@ -1,17 +1,33 @@
-First off I am happy to admit it took me a bit longer than the prescribed 2-3 hours.
-This was due to myself re-familiarising myself with Java as it's been quite a while since I last work with it.
+Requirements to run:
+    - Maven installed
+    - JDK8 or above
+    - Chrome installed with version between v62-v64
+
+Environment variables:
+    - set bbc-username={test-email}
+    - set bbc-password={test-password}
+
+Run tests command:
+    - mvn test -Dtest=RunCucumberTest
+
+First off I would like to make it clear that this took longer than the suggested 2-3 hours.
+This was due to myself re-familiarising myself with Java as it's been quite a while since I last worked with it.
 I also had to get my environment set up into a place I felt comfortable developing for a new(figuratively) language.
 
-As an insight into my choice in this, I opt to forgoe a full IDE instead using VSCode and command line using Maven to run the tests, for faster feedback.
-Mimicking how I would be running it on a pipeline to automate testing.
+As an insight into my choice in this, I opted to forgo a full IDE instead using VSCode and command line using Maven to run the tests, for faster feedback.
+Thus mimicking how it would be run on a pipeline to automate testing.
 
-Something I still need to introduce into it is dependancy injection so that I can pass in different webdrivers and carry state betweem separate step definition files.
-As this was only covering a handful of tests, using a single file for all definitions didn't become unwieldy so it wasn't a priority to introduce.
+Tests were designed with the mindset that layout may change but as long as given class name and ids are kept they should still function with the same xpath.
+Host was pulled into a variable, this could also be added to the environment variables to vary per environment.
+Environment Variables are used for sensitive data, such as login details so they don't have to be stored in source code.
 
-Tests were designed with the mindset that layout may change but aslong as given class name and ids are kept they should still function with the same xpath.
-
-For the design of checking that a comment has been posted, I needed a unique identifier on the comment.
-I had considered using GUID and infact saw others making use of it as their solution while doing my own testing, but instead opted for system time, still being unique and giving insight into when the comment was posted should the information become pertinent.
-Checking that the comment had been posted I used info from the query string, an alternative to this would be to inspect either the lastest or each comment to see if it had been posted.
+For checking that a comment has been posted, I needed a unique identifier on the comment.
+I had considered using GUID and even saw others making use of it as their solution while doing my own testing, but instead opted for system time, still being unique and giving insight into when the comment was posted client side should the information become pertinent.
+Checking that the comment had been posted; I used info from the query string, an alternative to this would be to inspect either the latest or each comment to see if it had been posted.
 
 Host was pulled into a variable, this could also be added to the environment variables to vary per environment.
+
+When run a test report will be generated that is stored in the directory ./target/cucumber/
+
+Something I still need to introduce is dependency injection so that different webdrivers can be passed in and carry state between separate step definition files.
+As this was only covering a handful of tests, using a single file for all definitions didn't become unwieldy so it wasn't a priority to introduce.

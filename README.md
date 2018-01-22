@@ -17,6 +17,6 @@ set bbc-password={test-password}
 ## Run tests with:
 
 ```
-mvn test
+mvn test -Dtest=RunCucumberTest
 ```
 
