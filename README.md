@@ -1,5 +1,5 @@
-## Requirements
-Maven installation
+## Requirements:
+Maven installed
 
 JDK8 or above
 

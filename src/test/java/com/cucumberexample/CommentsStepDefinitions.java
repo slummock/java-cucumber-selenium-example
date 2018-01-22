@@ -27,6 +27,7 @@ public class CommentsStepDefinitions implements En {
         String testComment = "Test Comment - " + System.currentTimeMillis();
         String userName = System.getenv("bbc-username");
         String userPassword = System.getenv("bbc-password");
+        String host = "bbc.com";
 
         Before(()->{
 
@@ -37,7 +38,7 @@ public class CommentsStepDefinitions implements En {
         });
 
         Given("^User is signed out$", () -> {            
-            driver.get("https://account.bbc.com/signout"); 
+            driver.get("https://account." + host + "/signout"); 
         });
 
         Given("^User navigates to \"([^\"]*)\"$", (String url) -> {            
@@ -54,7 +55,7 @@ public class CommentsStepDefinitions implements En {
         });
 
         Given("^User signs in", () -> {
-            driver.get("https://account.bbc.com/signin");
+            driver.get("https://account." + host + "/signin");
             WebElement userIdentifierInput = driver.findElement(By.id("user-identifier-input"));
             userIdentifierInput.sendKeys(userName);
             WebElement userPasswordInput = driver.findElement(By.id(("password-input")));
